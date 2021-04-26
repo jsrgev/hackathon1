@@ -10,7 +10,7 @@ let characters = [{
 		char: ["superman", "spiderman", "hulk", "thor", "captain"]
 	}, {
 		category: "animals",
-		char: ["kangaroo", "ostrich", "cat", "bear", "dog"]
+		char: ["kangaroo", "ostrich", "cat", "meerkat", "dog"]
 	}
 ]
 
@@ -277,8 +277,10 @@ function cleanUp() {
 			img.style.opacity = "0";
 		}
 	}
+	for (img of images) {
+	img.style.transition = "all .8s ease-in";
+	}
 	for (img of selectedNodes) {
-		img.style.transition = "all 1s ease-in";
 		img.style.left = "50%";
 		img.classList.add("centered");
 		switch (img.classList[2]) {
