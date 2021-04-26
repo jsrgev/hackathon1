@@ -4,7 +4,7 @@ let characters = [{
 		char: ["dracula", "mummy", "horseman", "witch", "it"]
 	}, {
 		category: "celebrities",
-		char: ["jackson", "queen", "chaplin", "snoop", "bieber"]
+		char: ["jackson", "queen", "chaplin", "snoop"]
 	}, {
 		category: "superheroes",
 		char: ["superman", "spiderman", "hulk", "thor", "captain"]
@@ -14,7 +14,7 @@ let characters = [{
 	}
 ]
 
-let currentRound = 0;
+let currentRound = 1;
 
 let currentCategory=characters[currentRound];
 
