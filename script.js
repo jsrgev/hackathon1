@@ -4,7 +4,7 @@ let characters = [{
 		char: ["dracula", "mummy", "horseman", "witch", "it"]
 	}, {
 		category: "celebrities",
-		char: ["jackson", "queen", "chaplin", "snoop"]
+		char: ["jackson", "queen", "chaplin", "snoop", "elvis"]
 	}, {
 		category: "superheroes",
 		char: ["superman", "spiderman", "hulk", "thor", "captain"]
@@ -134,6 +134,7 @@ function initialize() {
 		currentCategory=characters[currentRound];
 	}
 		createImages()
+	startButton.disabled = true;
 }
 
 let charQueueTop = [];
@@ -289,6 +290,7 @@ function endRound() {
 	cleanUp();
 	updateMessage();
 	currentRound++;
+	startButton.disabled = false;
 }
 
 

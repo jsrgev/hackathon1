@@ -53,8 +53,9 @@ main {
 	grid-template-columns: 1fr;
 	grid-template-rows: 155px 120px 265px;
 	position: relative;
-	border-radius: 20px;
+	/*border-radius: 20px;*/
 	border:2px solid red;
+	box-sizing: border-box;
 }
 
 main>div {
@@ -66,23 +67,23 @@ main:before, main:after {
 	content: "";
 	height:100%;
 	width:300px;
-	background-color: #ededed99;
 	position:absolute;
 	top:0;
 	z-index: 10;
-}
+background: #FF543D;
+background: linear-gradient(135deg, #FF543D 0%, #E64040 62%, #751010 100%);}
 
 main:before {
 	left:0;
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
+	/*border-top-left-radius: 20px;*/
+	/*border-bottom-left-radius: 20px;*/
 
 }
 
 main:after {
 	right:0;
-	border-top-right-radius-radius: 20px;
-	border-top-right-radius: 20px;
+	/*border-top-right-radius-radius: 20px;*/
+	/*border-top-right-radius: 20px;*/
 }
 
 #lineup {
