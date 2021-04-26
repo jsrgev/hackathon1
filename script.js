@@ -27,6 +27,7 @@ let rows = document.querySelectorAll("main>div");
 let howManyChar = currentCategory["char"].length;
 let randomSeq;
 function generateRandomSeq() {
+	howManyChar = currentCategory["char"].length;
 	randomSeq = [];
 	for (let i = 0; i<howManyChar; i++) {
 		let randomNum;
@@ -38,7 +39,13 @@ function generateRandomSeq() {
 	return(randomSeq);
 }
 
-// Generate images
+// createImages();
+
+let topImages;
+let middleImages;
+let bottomImages;
+let images;
+
 
 function createImages() {
 	for (let i=0; i<sections.length; i++) {
@@ -51,24 +58,24 @@ function createImages() {
 			rows[i].append(img);
 		}
 	}
+	topImages = document.querySelectorAll(".top");
+	middleImages = document.querySelectorAll(".middle");
+	bottomImages = document.querySelectorAll(".bottom");
+	images = document.querySelectorAll("main>div>img");
+	callTimeout();
 }
-
-createImages();
-
-let topImages = document.querySelectorAll(".top");
-let middleImages = document.querySelectorAll(".middle");
-let bottomImages = document.querySelectorAll(".bottom");
 
 
 
 // Image Sizing
 
-setTimeout (resizeImages, 50);
+
+function callTimeout() {
+	setTimeout (resizeImages, 50);
+}
+
 function resizeImages() {
 	for (let i=0; i<middleImages.length; i++) {
-		// console.log(middleImages[i].width);
-		// console.log(middleImages[i].style.width);
-		// console.log(window.getComputedStyle(middleImages[i]).width);
 		let width = middleImages[i].width;
 		let charClass = middleImages[i].classList[0]
 		let sameCharImages = document.querySelectorAll("." + charClass);
@@ -79,40 +86,54 @@ function resizeImages() {
 	makeVisible();
 }
 
+
+
+// setTimeout (resizeImages, 50);
+// function resizeImages() {
+// 	for (let i=0; i<middleImages.length; i++) {
+// 		let width = middleImages[i].width;
+// 		let charClass = middleImages[i].classList[0]
+// 		let sameCharImages = document.querySelectorAll("." + charClass);
+// 		for (image of sameCharImages) {
+// 			image.width = width;
+// 		}
+// 	}
+// 	makeVisible();
+// }
+
 // to avoid possible img flashing before resizing, visibility set only afterward
-let images = document.querySelectorAll("main>div>img");
 function makeVisible() {
 	for (image of images) {
 		image.style.opacity="1";
 	}
+	startMove();
 }
 
 
-let startButton = document.querySelector("#start");
-let main = document.querySelector("main");
-
-
-let position = [0,0];
-let clickStatus = [false, false, false];
-
-startButton.addEventListener("click",initialize);
-
-// let rows = [document.querySelectorAll(".top"),document.querySelectorAll(".middle"),document.querySelectorAll(".bottom")]
-
-
-
-function initialize() {
-
-	if (currentRound > 0) {
-		clearImages();
-		currentRound++;
-	}
+function startMove() {
 	moveToQueueTop();
 	moveToQueueMiddle();
 	moveToQueueBottom();
 	moveItemsTop();
 	moveItemsMiddle();
 	moveItemsBottom();
+}
+
+let startButton = document.querySelector("#start");
+let main = document.querySelector("main");
+
+
+let clickStatus = [false, false, false];
+
+startButton.addEventListener("click",initialize);
+
+
+function initialize() {
+	if (currentRound > 0) {
+		clearImages();
+		currentCategory=characters[currentRound];
+	}
+		createImages()
 }
 
 let charQueueTop = [];
@@ -257,7 +278,6 @@ function getImgId(event) {
 			case "bottom":
 				clickStatus[2] = true;
 		}
-		console.log(selectedChars)
 		if (selectedNodes.length==3) {
 			endRound();
 		}
@@ -265,9 +285,10 @@ function getImgId(event) {
 }
 
 function endRound() {
-	cleanUp();
 	resetAll();
+	cleanUp();
 	updateMessage();
+	currentRound++;
 }
 
 
@@ -311,13 +332,24 @@ function resetAll() {
 	charIndexBottom = 0;
 }
 
+let winCount = 0;
+let lossCount = 0;
 let message = document.querySelector("#message");
+let wins = document.querySelector("#wins span");
+let losses = document.querySelector("#losses span");
+let round = document.querySelector("#round span")
+
 function updateMessage() {
 	if (checkMatches()) {
 		message.textContent = "You've won this round!";
+		winCount++;
+		wins.textContent = winCount;
 	} else {
 		message.textContent = "Sorry, not a match. Try again!";
+		lossCount++
+		losses.textContent = lossCount;
 	}
+		round.textContent = currentRound+2;
 }
 
 function clearImages() {

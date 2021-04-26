@@ -19,6 +19,18 @@ header {
 
 header>div {
 	padding:1rem;
+}	
+
+#middle, #score {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap:1rem;
+}
+
+
+button {
+	margin-left: 1rem;
 }
 
 h1 {
