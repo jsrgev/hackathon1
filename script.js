@@ -14,7 +14,7 @@ let characters = [{
 	}
 ]
 
-let currentRound = 1;
+let currentRound = 0;
 
 let currentCategory=characters[currentRound];
 
@@ -95,13 +95,18 @@ let main = document.querySelector("main");
 let position = [0,0];
 let clickStatus = [false, false, false];
 
-startButton.addEventListener("click",moveInitialize);
+startButton.addEventListener("click",initialize);
 
 // let rows = [document.querySelectorAll(".top"),document.querySelectorAll(".middle"),document.querySelectorAll(".bottom")]
 
 
 
-function moveInitialize() {
+function initialize() {
+
+	if (currentRound > 0) {
+		clearImages();
+		currentRound++;
+	}
 	moveToQueueTop();
 	moveToQueueMiddle();
 	moveToQueueBottom();
@@ -116,8 +121,6 @@ let charQueueMiddle = [];
 let charIndexMiddle = 0;
 let charQueueBottom = [];
 let charIndexBottom = 0;
-
-let charIndex = 0;
 
 let delayQueue = 1000;
 let incrementMove = 5;
@@ -256,20 +259,17 @@ function getImgId(event) {
 		}
 		console.log(selectedChars)
 		if (selectedNodes.length==3) {
-			cleanUp();
-			checkMatches();
+			endRound();
 		}
 	}
 }
 
-
-function checkMatches() {
-	if (selectedChars[0]==selectedChars[1] && selectedChars[0] ==selectedChars[2]) {
-		console.log("You've won this round");
-	} else {
-		console.log("Sorry, not a match. Try again!");
-	}
+function endRound() {
+	cleanUp();
+	resetAll();
+	updateMessage();
 }
+
 
 function cleanUp() {
 	for (img of images) {
@@ -292,5 +292,37 @@ function cleanUp() {
 				break;
 		}
 	}
-
 }
+
+function checkMatches() {
+	if (selectedChars[0]==selectedChars[1] && selectedChars[0] ==selectedChars[2]) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function resetAll() {
+	charQueueTop = [];
+	charIndexTop = 0;
+	charQueueMiddle = [];
+	charIndexMiddle = 0;
+	charQueueBottom = [];
+	charIndexBottom = 0;
+}
+
+let message = document.querySelector("#message");
+function updateMessage() {
+	if (checkMatches()) {
+		message.textContent = "You've won this round!";
+	} else {
+		message.textContent = "Sorry, not a match. Try again!";
+	}
+}
+
+function clearImages() {
+	for (image of images) {
+		image.remove();
+	}
+}
+
