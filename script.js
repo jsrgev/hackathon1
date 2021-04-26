@@ -15,13 +15,10 @@ let characters = [{
 ]
 
 let currentRound = 0;
-
 let currentCategory=characters[currentRound];
 
 let sections = ["top", "middle", "bottom"];
-
 let rows = document.querySelectorAll("main>div");
-
 
 // Generate random order for current characters
 let howManyChar = currentCategory["char"].length;
@@ -39,13 +36,13 @@ function generateRandomSeq() {
 	return(randomSeq);
 }
 
-// createImages();
+
+// generate images
 
 let topImages;
 let middleImages;
 let bottomImages;
 let images;
-
 
 function createImages() {
 	for (let i=0; i<sections.length; i++) {
@@ -69,7 +66,6 @@ function createImages() {
 
 // Image Sizing
 
-
 function callTimeout() {
 	setTimeout (resizeImages, 50);
 }
@@ -86,20 +82,6 @@ function resizeImages() {
 	makeVisible();
 }
 
-
-
-// setTimeout (resizeImages, 50);
-// function resizeImages() {
-// 	for (let i=0; i<middleImages.length; i++) {
-// 		let width = middleImages[i].width;
-// 		let charClass = middleImages[i].classList[0]
-// 		let sameCharImages = document.querySelectorAll("." + charClass);
-// 		for (image of sameCharImages) {
-// 			image.width = width;
-// 		}
-// 	}
-// 	makeVisible();
-// }
 
 // to avoid possible img flashing before resizing, visibility set only afterward
 function makeVisible() {
@@ -148,13 +130,8 @@ let delayQueue = 1000;
 let incrementMove = 5;
 
 
-
-// let columns = [[t,m,b], [t,m,b], 3, 4, 5]
-
 function moveToQueueTop() {
-
 	let id = setInterval(function() {
-
 	    if (charQueueTop.length == topImages.length) {
 	    	charIndexTop = 0 
 	        clearInterval(id);
@@ -170,9 +147,7 @@ function moveToQueueTop() {
 }
 
 function moveToQueueMiddle() {
-
 	let id = setInterval(function() {
-
 	    if (charQueueMiddle.length == middleImages.length) {
 	    	charIndexMiddle = 0 
 	        clearInterval(id);
@@ -188,9 +163,7 @@ function moveToQueueMiddle() {
 }
 
 function moveToQueueBottom() {
-
 	let id = setInterval(function() {
-
 	    if (charQueueBottom.length == bottomImages.length) {
 	    	charIndexBottom = 0 
 	        clearInterval(id);
@@ -206,16 +179,14 @@ function moveToQueueBottom() {
 }
 
 
-//more images, need larger distance to travel so they won't overlap whey return to begeinning
+//if more images, need larger distance to travel so they won't overlap whey return to beginning
 let trackWidth = main.offsetWidth + (howManyChar-4)*250;
 
 function moveItemsTop() {
 	let intervalTop = setInterval(function() {
 			for (item of charQueueTop) {
 				if (item["position"] >= trackWidth || clickStatus[0] == true) {
-					// clearInterval(intervalTop);
 					item["position"]=0;
-					// moveItemsTop();
 				} else {
 					item["position"]+=1;
 					item["char"].style.left = item["position"] + "px";
@@ -228,9 +199,7 @@ function moveItemsMiddle() {
 	let intervalMiddle = setInterval(function() {
 			for (item of charQueueMiddle) {
 				if (item["position"] >= trackWidth || clickStatus[1] == true) {
-					// clearInterval(intervalMiddle);
 					item["position"]=0;
-					// moveItemsMiddle();
 				} else {
 					item["position"]+=1;
 					item["char"].style.left = item["position"] + "px";
@@ -243,9 +212,7 @@ function moveItemsBottom() {
 	let intervalBottom = setInterval(function() {
 			for (item of charQueueBottom) {
 				if (item["position"] >= trackWidth || clickStatus[2] == true) {
-					// clearInterval(intervalBottom);
 					item["position"]=0;
-					// moveItemsBottom();
 				} else {
 					item["position"]+=1;
 					item["char"].style.left = item["position"] + "px";
@@ -259,8 +226,9 @@ main.addEventListener("click",getImgId);
 
 let selectedNodes = [];
 let selectedChars = [];
-let selectedParts =[];
+let selectedParts = [];
 
+// check if click was on appropriate image, if 3 goes to endRound()
 function getImgId(event) {
 	let hoverItems = document.querySelectorAll( ":hover" );
 	let clickedItem = hoverItems[hoverItems.length-1];
@@ -285,6 +253,7 @@ function getImgId(event) {
 	}
 }
 
+
 function endRound() {
 	resetAll();
 	cleanUp();
@@ -293,7 +262,7 @@ function endRound() {
 	startButton.disabled = false;
 }
 
-
+// bring 3 selected images together and hide other ones
 function cleanUp() {
 	for (img of images) {
 		if (selectedNodes.indexOf(img) <0) {
@@ -317,6 +286,7 @@ function cleanUp() {
 	}
 }
 
+// check if the three selected images match
 function checkMatches() {
 	if (selectedChars[0]==selectedChars[1] && selectedChars[0] ==selectedChars[2]) {
 		return true;
@@ -340,6 +310,7 @@ let message = document.querySelector("#message");
 let wins = document.querySelector("#wins span");
 let losses = document.querySelector("#losses span");
 let round = document.querySelector("#round span")
+
 
 function updateMessage() {
 	if (checkMatches()) {
